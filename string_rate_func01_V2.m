@@ -54,8 +54,8 @@ function dVdt = string_rate_func01_V2(t, V, string_params)
 
     % calculate 
     % d2Udt2 = (M\K)*U;
-    Mud2 = (Tf/dx)*K*U + (Tf/dx)*B_u + (c/dx)*K*dUdt + (c/dx)*B_dudt;
-    d2Udt2 = M\Mud2;
+    partial_calc = (Tf/dx)*K*U + (Tf/dx)*B_u + (c/dx)*K*dUdt + (c/dx)*B_dudt;
+    d2Udt2 = M\partial_calc;
     
     % assemble state derivative
     dVdt = [dUdt; d2Udt2];
