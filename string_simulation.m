@@ -32,7 +32,7 @@ function string_simulation()
     my_rate_func = @(t_in, V_in) string_rate_func01_V2(t_in, V_in, string_params);
     
     % initial conditions
-    U0 = 0.01*ones(num_masses, 1); % CHOSEN
+    U0 = zeros(num_masses, 1); % CHOSEN
     dUdt0 = zeros(num_masses, 1); % CHOSEN
     V0 = [U0; dUdt0];
     tspan = [0, 15]; % CHOSEN
@@ -42,6 +42,6 @@ function string_simulation()
     
     % animate the system
     save_vid = false;
-    animate_string_sys(Vlist, tlist, string_params, save_vid)
+    animate_string_sys_V2(Vlist, tlist, string_params, save_vid)
 end
 

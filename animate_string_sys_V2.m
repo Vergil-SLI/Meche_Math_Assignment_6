@@ -1,6 +1,6 @@
-%% functions to animate the string-weight system
+%% functions to animate the string-weight system (with color coordination)
 
-function animate_string_sys(Vlist, tlist, string_params, save_vid)
+function animate_string_sys_V2(Vlist, tlist, string_params, save_vid)
 
     % File set up:
     if save_vid == true
@@ -30,18 +30,18 @@ function animate_string_sys(Vlist, tlist, string_params, save_vid)
     
     % initialize plot 
     x_data = linspace(0, string_length, n+2);
-    y_data = Vlist(1, 1:n); u0 = 0; uf = uf_list(1);
-    string_plot = plot(x_data, [u0, y_data, uf], "o-", ...
-        MarkerSize=5, MarkerFaceColor="r", MarkerEdgeColor="r", LineWidth=1); 
-    hold on;
+    V_data = Vlist(1, 1:n); u0 = 0; uf = uf_list(1);
+    y_data = [u0, V_data, uf];
+    string_plot_struct = initialize_plot(x_data, y_data);
 
     % Animation: loop and plot each timestep
     for i = 2:length(tlist)
         % delay according to timestep
-        pause(0.1*tdiff(i-1));
+        pause(0.3*tdiff(i-1));
 
         % update ydata in string plot to be U vals
-        set(string_plot, 'ydata', [u0, Vlist(i, 1:n), uf_list(i)]);
+        ydata_new = [u0, Vlist(i, 1:n), uf_list(i)];
+        update_plots(string_plot_struct, ydata_new); 
         
         % redraw
         drawnow;
@@ -59,4 +59,38 @@ function animate_string_sys(Vlist, tlist, string_params, save_vid)
     if save_vid == true
         close(writerObj)
     end
+end
+
+%% initialize string plots
+
+function string_plot_struct = initialize_plot(xdata, ydata)
+
+    C = orderedcolors("gem");
+    string_plot_struct = struct();
+
+    % plot just the lines between points (blue continuous)
+    string_plot_struct.line_plot = plot(xdata, ydata, "-", Color=C(1,:), LineWidth=1.5);
+    hold on;
+
+    % plot markers for the masses (filled red circles)
+    string_plot_struct.mass_plot = plot(xdata(2:end-1), ydata(2:end-1), ...
+        "o", MarkerSize=5, MarkerFaceColor=C(2,:), MarkerEdgeColor=C(2,:));
+
+    % plot the marker for the fixed end (black x)
+    string_plot_struct.fixed_end = plot(xdata(1), ydata(1), "kx", MarkerSize=7, LineWidth=2);
+
+    % plot the marker for the input end (blue diamond)
+    string_plot_struct.input_end = plot(xdata(end), ydata(end), ...
+        Marker="diamond", MarkerSize=5, MarkerFaceColor=C(3,:), MarkerEdgeColor=C(3,:));
+
+end
+
+%% update plots
+
+function update_plots(string_plot_struct, ydata)
+
+    set(string_plot_struct.line_plot, 'ydata', ydata);
+    set(string_plot_struct.mass_plot, 'ydata', ydata(2:end-1));
+    set(string_plot_struct.input_end, 'ydata', ydata(end));
+
 end
