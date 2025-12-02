@@ -7,7 +7,7 @@
 % OUTPUTS:
 %   res: derivative of pulse evaluated at t
 
-function res = b_spline_pulse_derivative(t, w, h)
+function res = INFCN_b_spline_pulse_derivative(t, w, h)
     
     t = 4*t/w;
     b3 = (0<=t).*(t<1).*(3*t.^2)/4;

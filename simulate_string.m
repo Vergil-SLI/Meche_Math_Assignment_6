@@ -1,16 +1,21 @@
-%% simulate string and weights system
+%% Simulate string and weights system for modal analysis
+% simulates system for a given input frequency for modal analysis
+% all initial displacements and velocities are zero
 
-function string_simulation()
+% INPUTS
+%   omega_Uf: a frequency for the forcing function uf(t) = A*cos(w*t)
+%   tspan: the time span to simulate over. tspan = [t_start, t_end]
+%   save_vid: a bool controling whether the simulation is saved as a file
+
+function simulate_string(omega_Uf, damping_coeff, tspan, save_vid)
     
-    % assign system params
-    num_masses = 3; % per later analysis
-    total_mass = 4.5; % arbitrary, may need to change
-    tension_force = 5; % arbitrary, may need to change
-    string_length = 5; % selected arbitrarily
-    damping_coeff = 0.001; % selected per Orion's suggestion 0.1-0.01
+    % assign system params (all arbitratily chosen)
+    num_masses = 3; 
+    total_mass = 4.5; 
+    tension_force = 5; 
+    string_length = 5;
     dx = string_length/(num_masses+1);
-    amplitude_Uf = 0.1; % CHOSEN
-    omega_Uf = 2; % CHOSEN
+    amplitude_Uf = 0.1; 
     
     % construct the forcing function and its derivative:
     % uf = A*cos(w*t), uf' = -w*A*sin(w*t)
@@ -32,16 +37,12 @@ function string_simulation()
     my_rate_func = @(t_in, V_in) string_rate_func01(t_in, V_in, string_params);
     
     % initial conditions
-    U0 = zeros(num_masses, 1); % CHOSEN
-    dUdt0 = zeros(num_masses, 1); % CHOSEN
-    V0 = [U0; dUdt0];
-    tspan = [0, 15]; % CHOSEN
+    V0 = zeros(2*num_masses, 1);  
     
     % run the integration
-    [tlist, Vlist] = ode45(my_rate_func, tspan, V0); % may want to specify abstol?
+    [tlist, Vlist] = ode45(my_rate_func, tspan, V0); 
     
     % animate the system
-    save_vid = false;
     animate_string(Vlist, tlist, string_params, save_vid)
 end
 

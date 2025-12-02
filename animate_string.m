@@ -1,6 +1,6 @@
 %% functions to animate the string-weight system (with color coordination)
 
-function animate_string_sys_V2(Vlist, tlist, string_params, save_vid)
+function animate_string(Vlist, tlist, string_params, save_vid)
 
     % File set up:
     if save_vid == true
