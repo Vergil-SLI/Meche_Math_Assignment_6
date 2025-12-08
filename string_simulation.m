@@ -3,19 +3,19 @@
 function string_simulation()
     
     % assign system params
-    num_masses = 3; % per later analysis
+    num_masses = 300; % per later analysis
     total_mass = 4.5; % arbitrary, may need to change
     tension_force = 5; % arbitrary, may need to change
     string_length = 5; % selected arbitrarily
-    damping_coeff = 0.001; % selected per Orion's suggestion 0.1-0.01
+    damping_coeff = 0.000000000001; % selected per Orion's suggestion 0.1-0.01
     dx = string_length/(num_masses+1);
-    amplitude_Uf = 0.1; % CHOSEN
+    amplitude_Uf = 0.5; % CHOSEN
     omega_Uf = 2; % CHOSEN
     
     % construct the forcing function and its derivative:
     % uf = A*cos(w*t), uf' = -w*A*sin(w*t)
     Uf_func = @(t_in) amplitude_Uf*cos(omega_Uf*t_in);
-    dUfdt_func = @(t_in) -omega_Uf*amplitude_Uf*sin(omega_Uf*t_in);
+    dUfdt_func = @(t_in) - omega_Uf*amplitude_Uf*sin(omega_Uf*t_in);
     
     % generate the struct
     string_params = struct();
