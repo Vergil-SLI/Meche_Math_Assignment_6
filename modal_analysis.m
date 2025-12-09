@@ -34,37 +34,22 @@ resonant_freqs = sqrt(sum(lambda_mat, 1));
 % an input frequency for uf(t) that is near or at the corresponding
 % resonant frequency.
 
+% select mode
 i = 2; 
 omega = resonant_freqs(i);
 U_r = mode_shapes(:, i); % only for the masses, not the end points
 
+% specify simulation params
 damping = 0.01; 
-tspan = [0, 25];
-save_vid = true;
+tlist = linspace(0, 20*(2*pi)/omega, 5000);
+save_vid = false;
 
 % simulate string w/ resonant freq
-simulate_mode(omega, damping, tspan, string_params, save_vid)
+% simulate_mode(omega, damping, list, string_params, save_vid)
 
 % simulate mode shape
-% simulate_mode_soln(U_r, omega, damping, tspan, string_params, save_vid)
+% simulate_mode_soln(U_r, omega, damping, tlist, string_params, save_vid)
 
-%% Animate a comparison of the predicted mode shape to the actual result
-
-% two subplots, one with the mode shape and the other with the animation 
-% of the vibrating string.
-
-% % a simulation of the string system with the mode inputs
-% figure();
-% subplot(2, 1, 1);
-% simulate_mode(U_r, omega, damping, tspan, string_params, save_vid)
-% title("our simulation")
-% 
-% % a simulation of the system if each mass were perfectly following the mode
-% subplot(2, 1, 2); 
-% % i think this doesn't actually sim bc it has to be changes to not take
-% % function for the end input? or smth
-% simulate_mode_soln(U_r, omega, damping, tspan, string_params, save_vid)
-% title("perfect(?) mode")
-% 
-% % label plot
-% sgtitle("Predicted Mode Shape Compared to the Actual Result")
+% Animate a comparison of the predicted mode shape to the actual result
+clf;
+sim_mode_comparison(U_r, omega, damping, tlist, string_params, save_vid)

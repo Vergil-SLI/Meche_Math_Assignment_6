@@ -40,7 +40,7 @@ function animate_string(Vlist, tlist, string_params, save_vid)
     % Animation: loop and plot each timestep
     for i = 2:length(tlist)
         % delay according to timestep
-        pause(0.3*tdiff(i-1));
+        % pause(0.3*tdiff(i-1));
 
         % update ydata in string plot to be U vals
         ydata_new = [u0, Vlist(i, 1:n), uf_list(i)];

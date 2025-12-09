@@ -25,6 +25,6 @@ function simulate_mode_soln(U_r, omega, damping, tspan, string_params, save_vid)
     end
 
     % animate result
-    animate_string(Vlist, tlist, string_params, save_vid)
+    animate_mode_comparison(Vlist, tlist, string_params, save_vid)
 
 end
