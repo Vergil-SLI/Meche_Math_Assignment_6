@@ -2,6 +2,8 @@
 
 function animate_string(Vlist, tlist, string_params, save_vid)
 
+    max_y = max(Vlist, [], "all");
+
     % File set up:
     if save_vid == true
         % define location and filename where video will be stored
@@ -26,7 +28,8 @@ function animate_string(Vlist, tlist, string_params, save_vid)
 
     % initialize figure
     fig1 = figure(1); clf(fig1); hold on; 
-    axis([-0.1*string_length, 1.1*string_length, -1, 1]);
+    % axis([-0.1*string_length, 1.1*string_length, -1, 1]);
+    axis([-0.1*string_length, 1.1*string_length, -1.1*max_y, 1.1*max_y]);
     
     % initialize plot 
     x_data = linspace(0, string_length, n+2);
@@ -45,7 +48,6 @@ function animate_string(Vlist, tlist, string_params, save_vid)
         
         % redraw
         drawnow;
-        axis equal; ylim([-1, 1]);
 
         if save_vid == true
             % capture a frame (what is currently plotted)

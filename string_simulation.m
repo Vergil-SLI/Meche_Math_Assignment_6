@@ -57,7 +57,7 @@ function string_simulation()
     string_params.c = damping_coeff;
     string_params.dx = dx;
     
-    % load string_params into rate function
+    % create anonymized function
     my_rate_func = @(t_in, V_in) string_rate_func01(t_in, V_in, string_params);
     
     % initial conditions
